@@ -1,0 +1,35 @@
+{
+  "name": "llm-gateway-showcase",
+  "version": "1.0.0",
+  "description": "Enterprise LLM Gateway - Architecture Showcase",
+  "author": "Syed Sadiq <mailme.syedsadiq@gmail.com>",
+  "license": "MIT",
+  "keywords": [
+    "llm",
+    "ai",
+    "gateway",
+    "microservices",
+    "enterprise",
+    "nestjs",
+    "nextjs",
+    "typescript",
+    "graphql",
+    "docker"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/syedsadiq/llm-gateway-showcase.git"
+  },
+  "scripts": {
+    "showcase": "echo 'This is a showcase repository - see README.md for details'",
+    "info": "echo 'Contact: mailme.syedsadiq@gmail.com for actual implementation'"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0"
+  }
+}

@@ -1,0 +1,122 @@
+# SHOWCASE ONLY - NOT FOR DEPLOYMENT
+# This file is for demonstration purposes only
+# Contact mailme.syedsadiq@gmail.com for actual implementation
+
+version: '3.8'
+
+services:
+  # Database
+  postgres:
+    image: postgres:15
+    container_name: llm-gateway-postgres
+    restart: unless-stopped
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_DB: llm_gateway
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - llm-gateway
+
+  # Redis Cache
+  redis:
+    image: redis:7-alpine
+    container_name: llm-gateway-redis
+    restart: unless-stopped
+    ports:
+      - '6379:6379'
+    networks:
+      - llm-gateway
+
+  # Frontend Service (Next.js)
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: llm-gateway-frontend
+    ports:
+      - '3008:3000'
+    environment:
+      - NODE_ENV=production
+      - NEXT_PUBLIC_API_URL=http://localhost:4000
+      - NEXT_PUBLIC_GRAPHQL_URL=http://localhost:4000/graphql
+    depends_on:
+      - backend
+    networks:
+      - llm-gateway
+
+  # Backend Services (NestJS)
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: llm-gateway-backend
+    ports:
+      - '3001:3001' # provider-service
+      - '3002:3002' # model-service
+      - '3003:3003' # application-service
+      - '3004:3004' # logging-service
+      - '3005:3005' # proxy-service
+      - '3006:3006' # auth-service
+      - '3007:3007' # workspace-service
+      - '4000:4000' # gateway
+    environment:
+      # Database
+      - DATABASE_URL=postgresql://admin:password@postgres:5432/llm_gateway
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_USERNAME=admin
+      - DB_PASSWORD=password
+      - DB_DATABASE=llm_gateway
+      
+      # Redis
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      
+      # JWT
+      - JWT_SECRET=your-super-secret-jwt-key
+      - JWT_EXPIRES_IN=24h
+      
+      # API Keys (use your own)
+      - OPENAI_API_KEY=your-openai-key
+      - ANTHROPIC_API_KEY=your-anthropic-key
+      - AZURE_OPENAI_KEY=your-azure-key
+      
+      # Azure AD (for enterprise auth)
+      - AZURE_CLIENT_ID=your-azure-client-id
+      - AZURE_CLIENT_SECRET=your-azure-client-secret
+      - AZURE_TENANT_ID=your-azure-tenant-id
+      
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - llm-gateway
+
+  # Optional: PGAdmin for database management
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: llm-gateway-pgadmin
+    restart: unless-stopped
+    ports:
+      - '8080:80'
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@example.com
+      PGADMIN_DEFAULT_PASSWORD: admin123
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    networks:
+      - llm-gateway
+    depends_on:
+      - postgres
+
+volumes:
+  postgres_data:
+  pgadmin_data:
+
+networks:
+  llm-gateway:
+    driver: bridge
