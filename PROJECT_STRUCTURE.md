@@ -5,7 +5,6 @@ This showcase repository is organized for clarity and easy navigation:
 ```
 llm-gateway-showcase/
 ├── README.md                    # Main project overview with screenshots
-├── LINKEDIN_POST.md            # Ready-to-use LinkedIn post templates
 ├── PROJECT_STRUCTURE.md        # This file - simple navigation guide
 ├── package.json                # Project metadata and quick start scripts
 ├── docker-compose.yml          # Complete deployment setup
@@ -45,16 +44,11 @@ llm-gateway-showcase/
 - Code samples: `examples/` folder - Clean implementation patterns
 - Deployment: `docs/DEPLOYMENT.md` - Production setup guide
 
-### **For LinkedIn Posting:**
-- Use: `LINKEDIN_POST.md` - 3 ready-to-use post templates
-- Reference: `images/` - Professional screenshots to attach
-
 ## 📞 **Questions or Collaboration?**
 
 **This is a showcase of a proprietary enterprise system.**
 
 For the full implementation, technical discussions, or collaboration:
-- 📧 **Email**: [mailme.syedsadiq@gmail.com](mailto:mailme.syedsadiq@gmail.com)
 - 💼 **LinkedIn**: [Syed Sadiq](https://www.linkedin.com/in/syed-sadiq-0952ab8a/)
 
 ---
